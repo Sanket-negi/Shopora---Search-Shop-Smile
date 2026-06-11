@@ -3,7 +3,7 @@
 > Backend for an e-commerce platform with authentication, three roles (USER, SELLER, ADMIN), and modules for Category, Product, Cart, Order, Wishlist, Payment (Stripe), and Seller onboarding.
 > Built with Spring (4.x), Spring Security (6+), Maven and PostgreSQL.
 
-This README is a **ready-to-use guide** for running, configuring, testing and extending the project. It includes configuration notes, required environment variables, development & production tips, security notes, important endpoint examples (Postman / cURL), and recommended next steps.
+
 
 ---
 
@@ -88,7 +88,7 @@ com.example.backend
 
 # Tech stack & requirements
 
-* Java 17+ (or version compatible with Spring Boot 3/4 — match your Spring version)
+* Java 17+ (or version compatible with Spring Boot 3/4 — match with Spring version)
 * Spring Boot 4.x
 * Spring Security 6.x
 * Maven (build & dependency management)
@@ -96,8 +96,8 @@ com.example.backend
 * Cloudinary (file uploads)
 * Stripe (payments)
 * Gmail SMTP (email notifications)
-* Optional: Redis (for token blacklisting, if later needed)
-* Optional: Flyway or Liquibase for migrations
+* Working on Redis (for token blacklisting, if later needed)
+
 
 ---
 
@@ -112,96 +112,7 @@ cp src/main/resources/application-example.properties src/main/resources/applicat
 # edit the file and fill database, jwt, cloudinary, stripe, mail credentials
 ```
 
-Important variables (placeholders shown in example file):
 
-* `spring.datasource.url` / `username` / `password`
-* `jwt.secret`
-* `spring.mail.username` / `spring.mail.password`
-* `cloudinary.cloud_name`, `cloudinary.api_key`, `cloudinary.api_secret`
-* `stripe.secretKey`
-* `app.base-url` (useful for verification links)
-* `payment.session.ttl.minutes` and cron for expiry checks
-
----
-
-# Local setup
-
-1. Clone the repo:
-
-   ```bash
-   git clone https://github.com/Faresaymann/ecommerce-platform.git
-   cd ecommerce-platform
-   ```
-
-2. Create local config:
-
-   ```bash
-   cp src/main/resources/application-example.properties src/main/resources/application.properties
-   # edit application.properties with your values
-   ```
-
-3. Ensure PostgreSQL is running and database exists:
-
-   ```sql
-   CREATE DATABASE e_commerce_db;
-   CREATE USER your_db_user WITH PASSWORD 'your_db_password';
-   GRANT ALL PRIVILEGES ON DATABASE e_commerce_db TO your_db_user;
-   ```
-
-4. Build:
-
-   ```bash
-   mvn clean package
-   ```
-
-5. Run:
-
-   ```bash
-   mvn spring-boot:run
-   # or
-   java -jar target/backend-0.0.1-SNAPSHOT.jar
-   ```
-
----
-
-# Running the app
-
-* Default port: `8080` (or `server.port` if configured)
-* Base API: `http://localhost:8080/api/v1`
-
----
-
-# Database & migrations
-
-* Currently `spring.jpa.hibernate.ddl-auto=update` (development convenience).
-* For production, switch to `validate` and use Flyway or Liquibase for schema migrations.
-* If you remove columns (e.g., `payout_account`, `store_description`, `vat_number`) use a migration script.
-
----
-
-# Important environment properties (high-level)
-
-Example placeholders (already in `application-example.properties`):
-
-```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/E_Commerence_DB
-spring.datasource.username=your_db_username
-spring.datasource.password=your_db_password
-
-jwt.secret=your_jwt_secret_here
-
-spring.mail.username=your_email@gmail.com
-spring.mail.password=your_email_password
-
-cloudinary.cloud_name=your_cloud_name
-cloudinary.api_key=your_cloudinary_api_key
-cloudinary.api_secret=your_cloudinary_api_secret
-
-stripe.secretKey=your_stripe_secret_key
-app.base-url=http://localhost:8080
-```
-
----
 
 # Auth flow & tokens (how it works)
 
